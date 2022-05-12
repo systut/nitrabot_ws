@@ -1,0 +1,7 @@
+<launch>
+   
+  <node pkg="lumi_robot" name="velocity_node" type="test_feedforward"/>
+  
+  <node pkg="simple_pose" name="position_output_node" type="simple_pose"/>
+ 
+</launch>

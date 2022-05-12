@@ -1,0 +1,18 @@
+<launch>
+    <!--  START PATH FINDER NODE -->
+    <group>
+        <node pkg="lumi_robot" name="path_finder_node" type="path_finder_node" output="screen" />
+    
+        <!-- Parking parameters -->
+        <!-- <param name="parkingDistance" type="double" binfile="{find lumi_robot}/src/path_finder_node.cpp"/> 
+        <param name="directionInMap" type="int" binfile="{file lumi_robot}/src/path_finder_node.cpp" /> -->
+        <param name="parking_Kp" type="double" value="0.5" />
+        <param name="parking_stopCondition" type="double" value="0.01" />
+
+        <!-- Rotate parameters -->
+        <!-- <param name="targetAngle" type="double" binfile="{find lumi_robot}/src/path_finder_node.cpp" /> -->
+        <param name="rotate_Kp" type="double" value="0.55" />
+        <param name="rotate_stopCondition" type="double" value="0.4" />
+
+    </group>
+</launch>
