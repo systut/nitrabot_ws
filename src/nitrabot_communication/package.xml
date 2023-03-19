@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>nitrabot_control</name>
+  <name>nitrabot_communication</name>
   <version>0.0.0</version>
   <description>The nitrabot_control package</description>
   <maintainer email="chuoru@github.com">chuoru</maintainer>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(nitrabot_control)
+project(nitrabot_communication)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
