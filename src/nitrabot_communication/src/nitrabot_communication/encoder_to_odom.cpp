@@ -1,6 +1,6 @@
 #include "ros/ros.h"
-#include "nitrabot_control/EncoderWheelVel.h"
-#include "robot_communication/robot_data.h"
+#include "nitrabot_communication/EncoderWheelVel.h"
+#include "nitrabot_communication/robot_data.h"
 #include <math.h>
 #include "geometry_msgs/Quaternion.h"
 #include "tf/transform_broadcaster.h"
@@ -141,7 +141,7 @@ public:
 	odometry_.publish(odom);
     }
 
-    void getEncoderData(const nitrabot_control::EncoderWheelVel::ConstPtr &enc)
+    void getEncoderData(const nitrabot_communication::EncoderWheelVel::ConstPtr &enc)
     {
 	// get timestamp and update last time
 	ros::Time current_time = ros::Time::now();

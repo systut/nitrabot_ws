@@ -14,7 +14,7 @@
  *
  * Publishes:
  * - Data type: sensor_msgs/BatteryState
- *		nitrabot_control/EncoderWheelVel
+ *		nitrabot_communication/EncoderWheelVel
  * - Address: encoder
  *	      battery
  * ===============================================================================
@@ -22,10 +22,10 @@
 
 #include <ros/ros.h>
 #include <SerialStream.h>
-#include <nitrabot_control/RobotWheelVel.h>
-#include <nitrabot_control/EncoderWheelVel.h>
+#include <nitrabot_communication/RobotWheelVel.h>
+#include <nitrabot_communication/EncoderWheelVel.h>
 #include <sensor_msgs/BatteryState.h>
-#include "robot_communication/robot_data.h"
+#include "nitrabot_communication/robot_data.h"
 #include "geometry_msgs/Twist.h"
 
 using namespace LibSerial;
@@ -176,7 +176,7 @@ public:
 	this->send_right_wheel_ = 0;
 
 	this->nh_ = nh;
-	this->encoder_ = nh.advertise<nitrabot_control::EncoderWheelVel>("encoder", 1000);
+	this->encoder_ = nh.advertise<nitrabot_communication::EncoderWheelVel>("encoder", 1000);
 	this->battery_ = nh.advertise<sensor_msgs::BatteryState>("battery", 1000);
     }
 
@@ -224,7 +224,7 @@ public:
 	    // if checksum wrong throw one byte away
 	    else {char throw_byte; robot_port_.get(throw_byte);}
 
-	    nitrabot_control::EncoderWheelVel encoder_msg;
+	    nitrabot_communication::EncoderWheelVel encoder_msg;
 	    encoder_msg.enc_left_wheel = enc_left_wheel_;
 	    encoder_msg.enc_right_wheel = enc_right_wheel_;
 
@@ -278,7 +278,7 @@ public:
 	robot_port_.Close();
     }
 
-    void getWheelVel(const nitrabot_control::RobotWheelVel::ConstPtr &vel)
+    void getWheelVel(const nitrabot_communication::RobotWheelVel::ConstPtr &vel)
     {
 	send_left_wheel_ = vel->left_wheel;
 	send_right_wheel_ = vel->right_wheel;

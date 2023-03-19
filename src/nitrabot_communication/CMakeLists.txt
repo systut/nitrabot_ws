@@ -7,17 +7,14 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/robot_communication/robot_data.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/nitrabot_communication/robot_data.cpp
     )
 
 set(HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/robot_communication/robot_data.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/nitrabot_communication/robot_data.h
 )
 
 add_library(industrial ${SOURCES} ${HEADERS})
-
-
-catkin_python_setup()
 
 ## Generate messages in the 'msg' folder
 add_message_files(
@@ -42,15 +39,11 @@ include_directories(
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
-catkin_install_python(PROGRAMS scripts/bumper_control_node
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-
-add_executable(robot_communication src/robot_communication/robot_communication.cpp)
+add_executable(robot_communication src/nitrabot_communication/robot_communication.cpp)
 target_link_libraries(robot_communication ${catkin_LIBRARIES} serial industrial)  
 
-add_executable(encoder_to_odom src/robot_communication/encoder_to_odom.cpp)
+add_executable(encoder_to_odom src/nitrabot_communication/encoder_to_odom.cpp)
 target_link_libraries(encoder_to_odom ${catkin_LIBRARIES} serial industrial) 
 
-add_executable(command_to_odom src/robot_communication/command_to_odom.cpp)
+add_executable(command_to_odom src/nitrabot_communication/command_to_odom.cpp)
 target_link_libraries(command_to_odom ${catkin_LIBRARIES} serial industrial) 
