@@ -1,4 +1,0 @@
-<launch>
-  <!--include file="$(find rplidar_ros)/launch/rplidar.launch" /-->
-  <include file="$(find cartographer_ros)/launch/cartographer_2d.launch" />
-</launch>

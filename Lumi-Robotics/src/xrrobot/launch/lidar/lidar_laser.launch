@@ -1,3 +1,0 @@
-<launch>
-  <include file="$(find rikirobot)/launch/lidar/$(env XRLIDAR).launch" />
-</launch>
