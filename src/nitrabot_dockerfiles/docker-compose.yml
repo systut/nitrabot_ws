@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  ros-master:
+    image: ros:noetic-ros-core
+    container_name: ros-master
+    command: stdbuf -o L roscore
+    network_mode: host
+    
+  nitra_robot:
+    user: root
+    depends_on: 
+      - ros-master
+    image: nitra_robot:latest
+    build:
+      context: ..
+      dockerfile: ./agribot_dockerfiles/Dockerfile
+    container_name: nitrabot-ros 
+    volumes:
+      - "../nitrabot_control:/root/catkin_ws/src/nitrabot_control"
+    privileged: True
+    network_mode: host
+    entrypoint:
+      - tail 
+      - -f
+      - /dev/null

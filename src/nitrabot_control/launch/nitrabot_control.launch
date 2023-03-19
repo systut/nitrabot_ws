@@ -1,0 +1,16 @@
+<launch>
+    <arg name="port" default="/dev/ttyUSB0" />
+
+	<!-- launch communication with the robot -->
+	<node name="robot_communication" pkg="nitrabot_control" type="robot_communication" >
+		<param name="port" value="$(arg port)" />
+	</node>
+
+	<node name="encoder_to_odom" pkg="nitrabot_control" type="encoder_to_odom" />
+
+	<node name="command_to_odom" pkg="nitrabot_control" type="command_to_odom" />
+
+	<!-- <node name="bumper_control" pkg="nitrabot_control" type="bumper_control_node.py" >
+	</node> -->
+
+</launch>
