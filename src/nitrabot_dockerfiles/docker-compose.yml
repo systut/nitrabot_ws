@@ -14,7 +14,7 @@ services:
     image: nitra_robot:latest
     build:
       context: ..
-      dockerfile: ./agribot_dockerfiles/Dockerfile
+      dockerfile: ./nitrabot_dockerfiles/Dockerfile
     container_name: nitrabot-ros 
     volumes:
       - "../nitrabot_control:/root/catkin_ws/src/nitrabot_control"

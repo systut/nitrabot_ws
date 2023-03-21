@@ -9,7 +9,10 @@ basic_dep="git \
 		   libserial-dev
 	  "
 
-ros_dep="ros-melodic-tf"
+ros_dep="ros-melodic-tf \
+         ros-melodic-robot-state-publisher \
+         ros-melodic-rviz \
+         ros-melodic-xacro"
           
 apt-get update
 apt-get upgrade -y
