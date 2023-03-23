@@ -12,6 +12,8 @@ basic_dep="git \
 ros_dep="ros-melodic-tf \
          ros-melodic-robot-state-publisher \
          ros-melodic-rviz \
+         ros-melodic-roslint \
+         ros-melodic-nmea-navsat-driver \
          ros-melodic-xacro"
           
 apt-get update

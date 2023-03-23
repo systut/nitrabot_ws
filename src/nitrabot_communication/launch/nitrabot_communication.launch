@@ -7,6 +7,4 @@
 
 	<node name="encoder_to_odom" pkg="nitrabot_communication" type="encoder_to_odom" />
 
-	<node name="command_to_odom" pkg="nitrabot_communication" type="command_to_odom" />
-
 </launch>
