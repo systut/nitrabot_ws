@@ -1,0 +1,1 @@
+rosbag record -o ./data/ /imu/data_raw /encoder /nmea_gga
