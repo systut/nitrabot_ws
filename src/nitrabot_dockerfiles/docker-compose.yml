@@ -2,7 +2,7 @@ version: '3'
 
 services:
   ros-master:
-    image: ros:noetic-ros-core
+    image: ros:melodic-ros-core
     container_name: ros-master
     command: stdbuf -o L roscore
     network_mode: host
@@ -17,7 +17,7 @@ services:
       dockerfile: ./nitrabot_dockerfiles/Dockerfile
     container_name: nitrabot-ros 
     volumes:
-      - "../nitrabot_control:/root/catkin_ws/src/nitrabot_control"
+      - "../:/root/catkin_ws/src/"
     privileged: True
     network_mode: host
     entrypoint:
