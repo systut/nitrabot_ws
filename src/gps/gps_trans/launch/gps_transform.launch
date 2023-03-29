@@ -1,0 +1,12 @@
+<launch>
+    <arg name="lat" default="34.702381363463104"/>
+  
+    <arg name="lon" default="137.40895890269843"/>
+
+    <rosparam param="original_latitude" subst_value="true">$(arg lat)</rosparam>
+
+    <rosparam param="original_longitude" subst_value="true">$(arg lon)</rosparam>
+
+    <node name="gps_transform_node" pkg="gps_trans" type="gps_transform_node" output="screen" />
+
+</launch>

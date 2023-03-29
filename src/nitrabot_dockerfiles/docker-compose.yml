@@ -18,6 +18,12 @@ services:
     container_name: nitrabot-ros 
     volumes:
       - "../:/root/catkin_ws/src/"
+    devices:
+     - /dev/ttyACM0:/dev/ttyACM0
+     - /dev/ttyACM1:/dev/ttyACM1
+     - /dev/ttyACM1:/dev/ttyACM2
+     - /dev/ttyACM0:/dev/ttyUSB0
+      # - /dev/ttyACM0:/dev/ttyUSB1
     privileged: True
     network_mode: host
     entrypoint:
