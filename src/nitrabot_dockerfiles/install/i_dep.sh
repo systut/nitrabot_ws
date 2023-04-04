@@ -14,7 +14,9 @@ ros_dep="ros-melodic-tf \
          ros-melodic-rviz \
          ros-melodic-roslint \
          ros-melodic-nmea-navsat-driver \
-         ros-melodic-xacro"
+         ros-melodic-xacro \
+         ros-melodic-ros-control \
+         ros-melodic-ros-controllers"
           
 apt-get update
 apt-get upgrade -y

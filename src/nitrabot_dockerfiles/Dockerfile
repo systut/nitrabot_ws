@@ -1,4 +1,4 @@
-FROM ros:melodic-ros-core
+FROM osrf/ros:melodic-desktop-full
 
 # copy install scripts
 COPY ./nitrabot_dockerfiles/install /root/install

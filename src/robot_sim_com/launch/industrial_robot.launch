@@ -1,0 +1,5 @@
+<launch>
+    <!-- launch the velocity model for the gazebo simulator -->
+	<include file="$(find industrial_robot_qt)/launch/wheel_velocity.launch" />
+
+</launch>

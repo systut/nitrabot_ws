@@ -1,0 +1,4 @@
+gazebo_ros_control:
+  pid_gains:
+    wheel_support_left_to_wheel_left: {p: 100.0, i: 0.01, d: 10.0}
+    wheel_support_right_to_wheel_right: {p: 100.0, i: 0.01, d: 10.0}
