@@ -1,4 +1,4 @@
-industrial_robot:
+nitrabot_description:
   # Velocity Controllers ---------------------------------------
   left_wheel_velocity_controller:
     type: velocity_controllers/JointVelocityController
