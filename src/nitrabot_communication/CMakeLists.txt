@@ -41,9 +41,12 @@ install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 add_executable(robot_communication src/nitrabot_communication/robot_communication.cpp)
 target_link_libraries(robot_communication ${catkin_LIBRARIES} serial industrial)  
+add_dependencies(robot_communication nitrabot_communication_generate_messages_cpp)
 
 add_executable(encoder_to_odom src/nitrabot_communication/encoder_to_odom.cpp)
 target_link_libraries(encoder_to_odom ${catkin_LIBRARIES} serial industrial) 
+add_dependencies(encoder_to_odom nitrabot_communication_generate_messages_cpp)
 
 add_executable(command_to_odom src/nitrabot_communication/command_to_odom.cpp)
 target_link_libraries(command_to_odom ${catkin_LIBRARIES} serial industrial) 
+add_dependencies(command_to_odom nitrabot_communication_generate_messages_cpp)
