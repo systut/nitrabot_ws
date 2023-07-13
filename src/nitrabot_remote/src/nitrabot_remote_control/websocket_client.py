@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Standard library
+import threading
 
 # External library
 import rospy
+import socketio
 
 # Internal library
 
 
-class NitrabotRemoteControl(object):
+class WebsocketClient(object):
     """! Class for remotely controlling nitrabot using websocket client
     @param host_address<str>: host address of websocket server
 
@@ -21,8 +23,9 @@ class NitrabotRemoteControl(object):
     def __init__(self, host_address):
 
         self._host_address = host_address
-        pass
-    
+
+        self._mutex_lock = threading.Lock()
+
     def connect(self):
         """! Connect to websocket server
         """
@@ -38,38 +41,57 @@ class NitrabotRemoteControl(object):
 	# PRIVATE METHOD
 	# ==========================================================================
     def _define_client(self):
-        """! method to initiate connection to sio server
-        return sio client
+        """! Initiate connection to sio server
+        @return sio: socketio instance 
         """
         wss_address = f'wss://{self._host_address}'
 
-        sio = socketio.Client(
+        client = socketio.Client(
             reconnection=True,
             logger=False,
             ssl_verify=False
         )
 
-        sio.on('connect', self._on_connect, namespace=None)
+        client.on('connect', self._on_connect, namespace=None)
 
-        sio.on('disconnect', self._on_disconnect, namespace=None)
+        client.on('disconnect', self._on_disconnect, namespace=None)
 
-        sio.connect(wss_addr,
+        client.connect(wss_addr,
                     transports=['websocket'],
                     socketio_path="/v1/")
 
-        sio.on('robot/{}'.format(sio.get_sid()),
-               self._on_message, namespace=None)
+        client.on('robot/{}'.format(client.get_sid()), 
+        self._on_message, namespace=None)
 
         return sio
-
-    def _on_message(self):
-        pass
+    
+    def _on_message(self, msg):
+        """! Callback for receiving message event
+        @param msg<str> received message 
+        """
+        json_msg = json.loads(msg)
 
     def _on_connect(self):
-        pass
+        """! Callback for connect event
+        """
+        self.is_connect_ = True
 
     def _on_disconnect(self):
-        pass
+        """! Callback for disconnect event
+        """
+        self.is_connect_ = False
+
+    def _send_message(self, msg):
+        """! Send message to websocket server
+        @param msg<dict> message that sent to server 
+        """
+        message = json.dumps(msg)
+
+        self._mutex_lock.acquire()
+
+        self._client.emit('robot', message, namespace=None)
+
+        self._mutex_lock.release()
 
 def main():
     host_address = ""

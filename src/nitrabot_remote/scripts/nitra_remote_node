@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import rospy
+from nitra_remote.nitra_remote_node import NitraRobotNode
+
+try:
+    nitra_remote_node = NitraRobotNode()
+    nitra_remote_node.run()
+except rospy.ROSInterruptException:
+    pass
