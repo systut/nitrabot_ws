@@ -17,10 +17,14 @@ ros_dep="ros-melodic-tf \
          ros-melodic-xacro \
          ros-melodic-ros-control \
          ros-melodic-ros-controllers"
-          
+
+python_dep="rospy-message-converter \
+         socketio"
+
 apt-get update
 apt-get upgrade -y
 apt-get install -y $basic_dep
 DEBIAN_FRONTEND=noninteractive apt-get install -y $ros_dep
 apt-get autoremove -y
 apt-get clean -y
+python3 -m pip install $python_dep

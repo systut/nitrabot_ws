@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 # Standard library
+import json
 import threading
 
 # External library
-import rospy
 import socketio
 
 # Internal library
@@ -40,7 +40,7 @@ class WebsocketClient(object):
 	# ==========================================================================
 	# PRIVATE METHOD
 	# ==========================================================================
-    def _define_client(self):
+    def _define_client(self, callback):
         """! Initiate connection to sio server
         @return sio: socketio instance 
         """
@@ -56,21 +56,15 @@ class WebsocketClient(object):
 
         client.on('disconnect', self._on_disconnect, namespace=None)
 
-        client.connect(wss_addr,
+        client.connect(wss_address,
                     transports=['websocket'],
                     socketio_path="/v1/")
 
         client.on('robot/{}'.format(client.get_sid()), 
-        self._on_message, namespace=None)
+        callback, namespace=None)
 
-        return sio
+        return client
     
-    def _on_message(self, msg):
-        """! Callback for receiving message event
-        @param msg<str> received message 
-        """
-        json_msg = json.loads(msg)
-
     def _on_connect(self):
         """! Callback for connect event
         """
@@ -92,14 +86,3 @@ class WebsocketClient(object):
         self._client.emit('robot', message, namespace=None)
 
         self._mutex_lock.release()
-
-def main():
-    host_address = ""
-
-    controller = NitrabotRemoteControl(host_address)
-
-    controller.connect()
-
-
-if __name__ == "__main__":
-    main()
