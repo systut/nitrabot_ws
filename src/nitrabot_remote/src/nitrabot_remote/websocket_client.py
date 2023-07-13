@@ -26,10 +26,11 @@ class WebsocketClient(object):
 
         self._mutex_lock = threading.Lock()
 
-    def connect(self):
+    def connect(self, callback):
         """! Connect to websocket server
+        @param callback<function>: callback function when receiving message
         """
-        self._client = self._define_client()
+        self._client = self._define_client(callback)
 
         client_thread = threading.Thread(target=self._client.wait)
 
@@ -42,6 +43,7 @@ class WebsocketClient(object):
 	# ==========================================================================
     def _define_client(self, callback):
         """! Initiate connection to sio server
+        @param callback<function>: callback function when receiving message
         @return sio: socketio instance 
         """
         wss_address = f'wss://{self._host_address}'

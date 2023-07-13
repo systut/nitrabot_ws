@@ -35,7 +35,9 @@ class NitrabotRemoteNode(object):
 
         self._gps_subscriber = rospy.Subscriber('fix', NavSatFix, self._callback)
 
-        self._client = WebsocketClient(self._on_message)
+        self._client = WebsocketClient()
+
+        self._client.connect(self._on_message)
     
     def run(self) -> None:
         """! Start ros node
@@ -61,7 +63,9 @@ class NitrabotRemoteNode(object):
         """
         message = json.loads(msg)
 
-        velocity_msg = json_message_converter.convert_ros_message_to_json(message["velocity"])
+        message_type = "geometry_msgs/Twist"
+
+        velocity_msg = json_message_converter.convert_json_to_ros_message(message_type, message["velocity"])
 
         self._velocity_publisher.publish(velocity_msg)
 
