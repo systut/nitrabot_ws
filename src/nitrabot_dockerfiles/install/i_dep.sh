@@ -6,17 +6,16 @@ basic_dep="git \
            vim \
            python3-catkin-tools \
            python3-pip \
-		   libserial-dev
 	  "
 
-ros_dep="ros-melodic-tf \
-         ros-melodic-robot-state-publisher \
-         ros-melodic-rviz \
-         ros-melodic-roslint \
-         ros-melodic-nmea-navsat-driver \
-         ros-melodic-xacro \
-         ros-melodic-ros-control \
-         ros-melodic-ros-controllers"
+ros_dep="ros-noetic-tf \
+         ros-noetic-robot-state-publisher \
+         ros-noetic-rviz \
+         ros-noetic-roslint \
+         ros-noetic-nmea-navsat-driver \
+         ros-noetic-xacro \
+         ros-noetic-ros-control \
+         ros-noetic-ros-controllers"
 
 python_dep="rospy-message-converter \
          socketio"

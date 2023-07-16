@@ -1,4 +1,4 @@
-FROM osrf/ros:melodic-desktop-full
+FROM osrf/ros:noetic-desktop-full
 
 # copy install scripts
 COPY ./nitrabot_dockerfiles/install /root/install
@@ -10,14 +10,17 @@ COPY ./ /root/catkin_ws/src/
 RUN /bin/sh -e -c /root/install/i_dep.sh
 
 # set environment variable for ros
-RUN echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc
+RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
 RUN echo "export ROS_MASTER_URI=http://localhost:11311" >> /root/.bashrc
 
 # install ros dependencies
 WORKDIR /root/catkin_ws 
-RUN catkin config --extend /opt/ros/melodic
+RUN catkin config --extend /opt/ros/noetic
+
 # RUN rosdep update && \
 #     rosdep install --from-paths src --ignore-src -r -y
+
+RUN catkin config --skiplist nitrabot_communication
 
 # Build ROS packages
 # RUN catkin build nitrabot_control && \
