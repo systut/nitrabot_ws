@@ -46,21 +46,18 @@ class WebsocketClient(object):
         @param callback<function>: callback function when receiving message
         @return sio: socketio instance 
         """
-        wss_address = f'wss://{self._host_address}'
+        wss_address = f'{self._host_address}'
 
         client = socketio.Client(
             reconnection=True,
-            logger=False,
-            ssl_verify=False
+            logger=False
         )
 
         client.on('connect', self._on_connect, namespace=None)
 
         client.on('disconnect', self._on_disconnect, namespace=None)
 
-        client.connect(wss_address,
-                    transports=['websocket'],
-                    socketio_path="/v1/")
+        client.connect(wss_address)
 
         client.on('robot/{}'.format(client.get_sid()), 
         callback, namespace=None)
@@ -81,10 +78,8 @@ class WebsocketClient(object):
         """! Send message to websocket server
         @param msg<dict> message that sent to server 
         """
-        message = json.dumps(msg)
-
         self._mutex_lock.acquire()
 
-        self._client.emit('robot', message, namespace=None)
+        self._client.emit('message', msg, namespace=None)
 
         self._mutex_lock.release()

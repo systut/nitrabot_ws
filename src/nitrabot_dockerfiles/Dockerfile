@@ -15,12 +15,11 @@ RUN echo "export ROS_MASTER_URI=http://localhost:11311" >> /root/.bashrc
 
 # install ros dependencies
 WORKDIR /root/catkin_ws 
-RUN catkin config --extend /opt/ros/noetic
 
 # RUN rosdep update && \
 #     rosdep install --from-paths src --ignore-src -r -y
 
-RUN catkin config --skiplist nitrabot_communication
+# RUN catkin config --skiplist nitrabot_communication
 
 # Build ROS packages
 # RUN catkin build nitrabot_control && \

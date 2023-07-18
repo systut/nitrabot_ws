@@ -18,7 +18,8 @@ ros_dep="ros-noetic-tf \
          ros-noetic-ros-controllers"
 
 python_dep="rospy-message-converter \
-         socketio"
+         python-socketio
+         python-socketio[client]"
 
 apt-get update
 apt-get upgrade -y
@@ -27,3 +28,4 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y $ros_dep
 apt-get autoremove -y
 apt-get clean -y
 python3 -m pip install $python_dep
+python3 -m pip install setuptools --upgrade

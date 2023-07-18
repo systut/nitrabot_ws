@@ -4,7 +4,7 @@ from setuptools import setup
 from catkin_pkg.python_setup import generate_distutils_setup
 
 setup_args = generate_distutils_setup(
-    packages=['nitra_remote'],
+    packages=['nitrabot_remote'],
     package_dir={'':'src'},
     )
 

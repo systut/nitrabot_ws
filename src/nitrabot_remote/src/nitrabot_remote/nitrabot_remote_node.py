@@ -35,7 +35,7 @@ class NitrabotRemoteNode(object):
 
         self._gps_subscriber = rospy.Subscriber('fix', NavSatFix, self._callback)
 
-        self._client = WebsocketClient()
+        self._client = WebsocketClient(host_address="http://192.168.86.122:5000")
 
         self._client.connect(self._on_message)
     
@@ -53,9 +53,7 @@ class NitrabotRemoteNode(object):
         """
         gps_data = json_message_converter.convert_ros_message_to_json(msg)
 
-        data = {"gps": gps_data}
-
-        self._client._send_message(data)
+        self._client._send_message(gps_data)
 
     def _on_message(self, msg):
         """! Callback for receiving message from websocket server

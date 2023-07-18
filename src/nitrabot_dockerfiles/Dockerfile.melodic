@@ -3,7 +3,7 @@ FROM ros:melodic-ros-core
 # copy install scripts
 RUN apt-get update
 
-RUN apt install -y python3-catkin
+RUN apt install -y python3-catkin-tools
 
 RUN apt install -y libserial-dev
 
