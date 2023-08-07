@@ -11,7 +11,7 @@
    </include>
 
   <!-- Launch Odometry from Gazebo -->
-  <include file="$(find odom_publisher)/launch/start_odom.launch" />
+  <!-- <include file="$(find odom_publisher)/launch/start_odom.launch" /> -->
 
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/> -->
 

@@ -2,13 +2,13 @@
 <robot name="industrial_robot" xmlns:xacro="http://ros.org/wiki/xacro">
 	
   <!-- Import all robot parts which were xacroed -->
-  <xacro:include filename="$(find industrial_robot_qt)/urdf/industrial_robot.xacro" />
+  <xacro:include filename="$(find nitrabot_description)/urdf/industrial_robot.xacro" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find industrial_robot_qt)/urdf/colors.xacro" />
+  <xacro:include filename="$(find nitrabot_description)/urdf/colors.xacro" />
   <!-- Import robot properties -->
-  <xacro:include filename="$(find industrial_robot_qt)/urdf/properties.xacro" />
+  <xacro:include filename="$(find nitrabot_description)/urdf/properties.xacro" />
   <!-- Import sensor and actuator properties -->
-  <xacro:include filename="$(find industrial_robot_qt)/urdf/sensors_and_actuators.xacro" />
+  <xacro:include filename="$(find nitrabot_description)/urdf/sensors_and_actuators.xacro" />
 
   <!--<link name="world"/>-->
 

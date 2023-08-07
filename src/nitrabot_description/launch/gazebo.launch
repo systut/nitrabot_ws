@@ -7,7 +7,7 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="world_name" default="worlds/empty.world"/>
-  <arg name="model" default="$(find industrial_robot_qt)/urdf/small_industrial_robot.urdf.xacro"/>
+  <arg name="model" default="$(find nitrabot_description)/urdf/industrial_robot.urdf.xacro"/>
   
   <!-- We resume the logic in empty_world.launch -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
