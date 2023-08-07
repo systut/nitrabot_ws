@@ -9,7 +9,7 @@
   <xacro:include filename="$(find nitrabot_description)/urdf/properties.xacro" />
   <!-- Import sensor and actuator properties -->
   <xacro:include filename="$(find nitrabot_description)/urdf/sensors_and_actuators.xacro" />
-  <xacro:arg name="robot_namespace" default="nitrabot" />
+  <xacro:arg name="robot_namespace" default="/" />
 
   <!--<link name="world"/>-->
 

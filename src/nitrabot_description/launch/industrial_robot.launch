@@ -1,5 +1,0 @@
-<launch>
-    <!-- launch the velocity model for the gazebo simulator -->
-	<include file="$(find nitrabot_description)/launch/wheel_velocity.launch" />
-
-</launch>

@@ -15,19 +15,6 @@
 
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/> -->
 
-  <!-- Load controller configuration -->
-  <rosparam command="load" file="$(find nitrabot_description)/config/control.yaml" />
-
-  <!-- Spawn controllers -->
-  <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
-        args="nitrabot_joint_publisher nitrabot_velocity_controller"/>
-
-  <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-      respawn="false" output="screen">
-      <remap from="joint_states" to="nitrabot_description/joint_states" />
-  </node>
-
   <!-- Launch the node to use twist message -->
   <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
     <param name="default_topic" value="/cmd_vel"/>
