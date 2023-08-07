@@ -24,10 +24,14 @@
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
 
+  <!-- Load controller configuration -->
+  <rosparam command="load" file="$(find nitrabot_description)/config/control.yaml" />
+
+  <!-- Spawn controllers -->
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
+        args="nitrabot_joint_publisher nitrabot_velocity_controller"/>
+
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-z 2.0 -x 0.0 -y 0.0 -unpause -urdf -model industrial_robot -param robot_description"/>
-    
-  <!-- Starting joint state publisher node which will publish the joint values -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
 </launch>
