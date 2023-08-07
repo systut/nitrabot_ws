@@ -9,6 +9,7 @@
   <xacro:include filename="$(find nitrabot_description)/urdf/properties.xacro" />
   <!-- Import sensor and actuator properties -->
   <xacro:include filename="$(find nitrabot_description)/urdf/sensors_and_actuators.xacro" />
+  <xacro:arg name="robot_namespace" default="nitrabot" />
 
   <!--<link name="world"/>-->
 
@@ -240,29 +241,41 @@
   <xacro:imu_sensor parent="back_base_support_frame" imu_name="imu_sensor" mass="${imu_mass}" sizex="0.03" sizey="0.03" sizez="0.005" ox="0.0" oy="0.0" oz="0.01" update_rate="${imu_update_rate}" update_rateHz="${imu_update_rateHz}" noise="${imu_noise}" />
 
   <!-- /////////////////////////////////////////////////////////////////////////// -->
-<!--
-<gazebo>
-  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-    <alwaysOn>true</alwaysOn>
-    <updateRate>50</updateRate>
-    <leftJoint>wheel_support_left_to_wheel_left</leftJoint>
-    <rightJoint>wheel_support_right_to_wheel_right</rightJoint>
-    <wheelSeparation>0.53</wheelSeparation>
-    <wheelDiameter>0.328</wheelDiameter>
-    <torque>20</torque>
-    <commandTopic>cmd_vel</commandTopic>
-    <odometryTopic>odom</odometryTopic>
-    <odometryFrame>odom</odometryFrame>
-    <robotBaseFrame>base_link</robotBaseFrame>
-    <legacyMode>false</legacyMode>
-  </plugin>
-</gazebo>
--->
-  <gazebo>
+ <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/industrial_robot</robotNamespace>
-      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>40</updateRate>
+      <bodyName>base_link</bodyName>
+      <frameId>map</frameId>
+      <topicName>navsat/fix</topicName>
+      <velocityTopicName>navsat/vel</velocityTopicName>
+      <referenceLatitude>34.835190564394</referenceLatitude>
+      <referenceLongitude>137.45711512765206</referenceLongitude>
+      <referenceHeading>0</referenceHeading>
+      <referenceAltitude>0</referenceAltitude>
+      <drift>0.0001 0.0001 0.0001</drift>
     </plugin>
   </gazebo>
 
