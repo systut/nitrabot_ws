@@ -1,14 +1,14 @@
-FROM ros:melodic-ros-core
+FROM osrf/ros:melodic-desktop-full 
 
 # copy install scripts
-RUN apt-get update
-
-RUN apt install -y python3-catkin-tools
-
-RUN apt install -y libserial-dev
+RUN apt-get update && \
+    apt install -y libserial-dev python-catkin-tools
 
 # copy directory specific to scart
-COPY ./ /root/catkin_ws/src/
+COPY ./nitrabot_communication /root/catkin_ws/src/nitrabot_communication
+
+# set default bash shell
+SHELL ["/bin/bash", "-c"]
 
 # set environment variable for ros
 RUN echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc
@@ -16,11 +16,11 @@ RUN echo "export ROS_MASTER_URI=http://localhost:11311" >> /root/.bashrc
 
 # install ros dependencies
 WORKDIR /root/catkin_ws 
-RUN catkin config --extend /opt/ros/melodic
-# RUN rosdep update && \
-#     rosdep install --from-paths src --ignore-src -r -y
+
+RUN rosdep update && \
+    rosdep install --from-paths src --ignore-src -r -y
 
 # Build ROS packages
-RUN catkin build nitrabot_communication \
-   chmod 777 /root/catkin_ws/devel/setup.bash && \
-   chmod 755 /root
+RUN . /opt/ros/melodic/setup.bash && \
+    catkin build && \
+    echo "source /root/catkin_ws/devel/setup.bash" >> /root/.bashrc

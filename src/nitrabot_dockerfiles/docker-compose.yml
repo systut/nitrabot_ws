@@ -11,11 +11,11 @@ services:
     user: root
     depends_on: 
       - ros-master
-    image: nitra_robot:latest
+    image: nitra_robot:noetic
     build:
       context: ..
       dockerfile: ./nitrabot_dockerfiles/Dockerfile
-    container_name: nitrabot-ros 
+    container_name: nitra_robot
     volumes:
       - "../:/root/catkin_ws/src/"
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
@@ -26,7 +26,30 @@ services:
       - "QT_X11_NO_MITSHM=1"
     privileged: True
     network_mode: host
-    entrypoint:
-      - tail 
-      - -f
-      - /dev/null
+    tty: True
+    stdin_open: True
+    command: bash
+
+  robot_communication:
+    user: root
+    depends_on: 
+      - ros-master
+    image: nitra_robot:melodic
+    build:
+      context: ..
+      dockerfile: ./nitrabot_dockerfiles/Dockerfile.melodic
+    container_name: robot_communication
+    volumes:
+      - "../nitrabot_communication/:/root/catkin_ws/src/nitrabot_communication/"
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - "/tmp/.docker.xauth:/tmp/.docker.xauth"
+    environment:
+      - "DISPLAY=$DISPLAY"
+      - "XAUTHORITY=/tmp/.docker.xauth"
+      - "QT_X11_NO_MITSHM=1"
+    privileged: True
+    network_mode: host
+    tty: True
+    stdin_open: True
+    command: bash
+
