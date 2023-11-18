@@ -1,0 +1,6 @@
+magnetic_declination_radians: 0.1382
+yaw_offset: 0
+zero_altitude: true
+publish_filtered_gps: false
+use_odometry_yaw: true
+wait_for_datum: false
