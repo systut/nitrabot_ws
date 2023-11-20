@@ -17,6 +17,7 @@ services:
       dockerfile: ./nitrabot_dockerfiles/Dockerfile
     container_name: nitra_robot
     volumes:
+      - "/dev:/dev"
       - "../:/root/catkin_ws/src/"
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - "/tmp/.docker.xauth:/tmp/.docker.xauth"
@@ -40,6 +41,7 @@ services:
       dockerfile: ./nitrabot_dockerfiles/Dockerfile.melodic
     container_name: robot_communication
     volumes:
+      - "/dev:/dev"
       - "../nitrabot_communication/:/root/catkin_ws/src/nitrabot_communication/"
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - "/tmp/.docker.xauth:/tmp/.docker.xauth"
