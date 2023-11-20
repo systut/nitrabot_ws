@@ -16,24 +16,24 @@
   use_control: false
 
 #Wheel Odometry
-  odom0: /wheel/odom   
-  odom0_config: [true,  true,  false,   # x,   y,   z
-                 false, false, true,    # r,   p,   w (yaw)
-                 true,  true,  false,   # dx,  dy,  dz
-                 false, false, true,    # dr,  dp,  dw
-                 false, false, false,]  # ddx, ddy, ddz
+  odom0: /nitrabot/odom   
+  odom0_config: [false,  false,  false,   # x,   y,   z
+                 false,  false,  false,   # r,   p,   w (yaw)
+                 true,   true,   false,   # dx,  dy,  dz
+                 false,  false,  true,    # dr,  dp,  dw
+                 false,  false,  false,]  # ddx, ddy, ddz
   odom0_queue_size: 10
-  odom0_differential: true
+  odom0_differential: false
   odom0_relative: false
   odom0_nodelay: true
 
 #IMU
-  imu0: imu/data
-  imu0_config: [false, false, false,   # x,   y,   z
-                true,  true,  true,    # r,   p,   w (yaw)
-                false, false, false,   # dx,  dy,  dz
-                true,  true,  true,    # dr,  dp,  dw
-                true,  true,  true,]   # ddx, ddy, ddz
+  imu0: /imu/data_raw
+  imu0_config: [false,  false, false,    # x,   y,   z
+                false,  false,  false,    # r,   p,   w (yaw)
+                false,  false, false,    # dx,  dy,  dz
+                false,  false,  true,    # dr,  dp,  dw
+                true,   false,  false,]   # ddx, ddy, ddz
   imu0_queue_size: 10
   imu0_differential: false
   imu0_relative: false
@@ -43,7 +43,7 @@
   gravitational_acceleration: 9.80665
 
 #transformed GPS
-  odom1: odometry/gps
+  odom1: /fix
   odom1_config: [true,  true,  false,
                   false, false, false,
                   false, false, false,

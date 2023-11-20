@@ -3,14 +3,15 @@
     <arg name="gnss_port" default="/dev/ttyACM0" />
     <arg name="imu_port" default="/dev/ttyACM1" />
 
-    <include file="$(find nitrabot_communication)/launch/nitrabot_communication.launch">
+    <!-- Robot communication -->
+    <!-- <include file="$(find nitrabot_communication)/launch/nitrabot_communication.launch">
 		<arg name="port" value="$(arg robot_port)" />
-    </include>
-
+    </include> -->
+    <!-- GPS -->
     <include file="$(find f9p_ichimill)/launch/gps_ichimill.launch">
 		<arg name="port" value="$(arg gnss_port)" />
     </include>
-
+    <!-- IMU -->
     <include file="$(find rt_usb_9axisimu_driver)/launch/rt_usb_9axisimu_driver.launch">
 		<arg name="port" value="$(arg imu_port)" />
     </include>

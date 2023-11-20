@@ -2,22 +2,16 @@
   <!-- Start node that publish the transfrom from /base_link to /odom -->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local" clear_params="true">
     <rosparam command="load" file="$(find nitrabot_localization)/config/ekf_local_params.yaml"/>
-    <remap from="/imu/data" to="/imu/data"/>
-    <remap from="/wheel/odometry" to="/nitrabot/odom"/>
   </node>
 
   <!-- Start node that publish the transfrom from /odom to /map -->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_global" clear_params="true">
     <rosparam command="load" file="$(find nitrabot_localization)/config/ekf_global_params.yaml"/>
-    <remap from="/imu/data" to="/imu/data"/>
-    <remap from="/wheel/odometry" to="/nitrabot/odom"/>
   </node>
 
   <!-- Start node that transform GPS data into Odometry data in a frame that is consistent with robot's world frame -->
   <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
     <rosparam command="load" file="$(find nitrabot_localization)/config/navsat_transform_params.yaml"/>
-    <remap from="/imu/data" to="/imu/data" />
-    <remap from="/gps/fix" to="/fix"/>
   </node>
 
   <!-- Pubish required transforms for revelant frames -->

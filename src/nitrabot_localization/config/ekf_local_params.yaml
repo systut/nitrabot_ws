@@ -16,21 +16,21 @@
   use_control: false
 
 #Wheel Odometry
-  odom0: /wheel/odom   
+  odom0: /nitrabot/odom   
   odom0_config: [false,  false,  false,   # x,   y,   z
                  false,  false,  false,   # r,   p,   w (yaw)
                  true,   true,   false,   # dx,  dy,  dz
                  false,  false,  true,    # dr,  dp,  dw
                  false,  false,  false,]  # ddx, ddy, ddz
   odom0_queue_size: 10
-  odom0_differential: true
+  odom0_differential: false
   odom0_relative: false
   odom0_nodelay: true
 
 #IMU
-  imu0: imu/data
+  imu0: /imu/data_raw
   imu0_config: [false,  false, false,    # x,   y,   z
-                false,  false,  true,    # r,   p,   w (yaw)
+                false,  false,  false,    # r,   p,   w (yaw)
                 false,  false, false,    # dx,  dy,  dz
                 false,  false,  true,    # dr,  dp,  dw
                 true,   false,  false,]   # ddx, ddy, ddz
