@@ -5,6 +5,8 @@
 		<param name="port" value="$(arg port)" />
 	</node>
 
-	<node name="encoder_to_odom" pkg="nitrabot_communication" type="encoder_to_odom" />
+	<node name="encoder_to_odom" pkg="nitrabot_communication" type="encoder_to_odom" >
+		<param name="publish_tf" value="false"/>
+	</node>
 
 </launch>
