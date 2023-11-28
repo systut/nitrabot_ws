@@ -19,14 +19,18 @@ private:
     tf::TransformBroadcaster odom_broadcaster_;
 
     // variables for the odometry
-    double x_, y_;
-    double x_dot_, y_dot_;
+    double x_, y_; //position in world frame
+    double x_dot_, y_dot_; //linear velocity in world frame
+	double x_dot_b_, y_dot_b_; //linear velocity in body frame
     double phi_;
     double phi_dot_;
 
     // time which need to be stored
     ros::Time last_time_;
     double timestamp_;
+
+	// publish_tf flag
+	bool publish_tf_;
 
     // function to check if velocity is reasonable or nonsense (if nonsense keep old one)
     bool feasableWheelAcc(int new_enc_left, int new_enc_right)
@@ -60,9 +64,12 @@ private:
 	x_ = new_x;
 	y_ = new_y;
 	phi_ = new_phi;
+	x_dot_ = new_x_dot;
+	y_dot_ = new_y_dot;
+
 	// twist in the robot frame
-	x_dot_ = robot_vel[0]; //linear velocity
-	y_dot_ = 0.0; // because robot is nonholonomic
+	x_dot_b_ = robot_vel[0]; //linear velocity
+	y_dot_b_ = 0.0; // because robot is nonholonomic
 	phi_dot_ = robot_vel[1]; // angular velocity
     }
 public:
@@ -71,6 +78,7 @@ public:
 	nh_ = nh;
 	odometry_ = nh_.advertise<nav_msgs::Odometry>("/nitrabot/odom", 50);
 
+	ros::param::param<bool>("~publish_tf", publish_tf_, true);
 	// initialize pose and twist
 	x_ = 0.0;
 	y_ = 0.0;
@@ -78,6 +86,9 @@ public:
 	x_dot_ = 0.0;
 	y_dot_ = 0.0;
 	phi_dot_ = 0.0;
+
+	x_dot_b_ = 0.0;
+	y_dot_b_ = 0.0;
 
 	enc_left_wheel_ = 0;
 	enc_right_wheel_ = 0;
@@ -94,6 +105,8 @@ public:
 	// rpy to quaternion
 	geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(phi_);
 
+	if (publish_tf_==true)
+	{
 	geometry_msgs::TransformStamped odom_trans;
 	odom_trans.header.stamp = last_time_;
 	odom_trans.header.frame_id = "odom";
@@ -106,6 +119,7 @@ public:
 
 	// send the transform
 	odom_broadcaster_.sendTransform(odom_trans);
+	}
 
 	// save data in messenger
 	odom.header.stamp = last_time_;
@@ -126,8 +140,8 @@ public:
 	                                                (0)   (0)   (0)  (0)  (0)  (1e3) ;
 
 	// twist
-	odom.twist.twist.linear.x = x_dot_;
-	odom.twist.twist.linear.y = y_dot_;
+	odom.twist.twist.linear.x = x_dot_b_;
+	odom.twist.twist.linear.y = y_dot_b_;
 
 	odom.twist.twist.angular.z = phi_dot_;
 

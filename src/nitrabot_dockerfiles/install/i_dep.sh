@@ -15,7 +15,10 @@ ros_dep="ros-noetic-tf \
          ros-noetic-nmea-navsat-driver \
          ros-noetic-xacro \
          ros-noetic-ros-control \
-         ros-noetic-ros-controllers"
+         ros-noetic-ros-controllers \
+         ros-noetic-rviz-imu-plugin \
+         ros-noetic-imu-filter-madgwick \
+         ros-noetic-robot-localization"
 
 python_dep="rospy-message-converter \
          python-socketio

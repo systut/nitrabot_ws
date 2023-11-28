@@ -7,6 +7,7 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
+  geometry_msgs
   std_msgs
   roslint
 )
@@ -17,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp sensor_msgs std_msgs
+  CATKIN_DEPENDS roscpp sensor_msgs std_msgs geometry_msgs
   # DEPENDS system_lib
 )
 
@@ -34,8 +35,12 @@ include_directories(
 # Declare a C++ executable
 add_executable(rt_usb_9axisimu_driver src/rt_usb_9axisimu_driver_node.cpp src/rt_usb_9axisimu_driver.cpp)
 
+add_executable(imu_debug_node src/imu_debug_node.cpp)
+
 # Specify libraries to link a library or executable target against
 target_link_libraries(rt_usb_9axisimu_driver ${catkin_LIBRARIES})
+
+target_link_libraries(imu_debug_node ${catkin_LIBRARIES})
 
 # Add cmake target dependencies of the library
 # add_dependencies(rt_usb_9axisimu_driver rt_usb_9axisimu_driver_generate_messages_cpp)
