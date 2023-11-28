@@ -1,0 +1,16 @@
+EBandPlannerROS:
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.2
+  rotation_correction_threshold: 0.7
+
+  eband_internal_force_gain: 0.5
+  eband_external_force_gain: 10.0
+
+  rot_stopped_vel: 0.01
+  trans_stopped_vel: 0.01
+  rotation_threshold_multiplier: 0.7
+
+  # these parameters are set by each robot
+  max_vel_lin: 0.7 #0.7
+  max_vel_th: 0.6 #0.6
+  costmap_weight: 100.0
