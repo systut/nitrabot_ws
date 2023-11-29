@@ -18,7 +18,8 @@ ros_dep="ros-noetic-tf \
          ros-noetic-ros-controllers \
          ros-noetic-rviz-imu-plugin \
          ros-noetic-imu-filter-madgwick \
-         ros-noetic-robot-localization"
+         ros-noetic-robot-localization \
+         ros-noetic-navigation"
 
 python_dep="rospy-message-converter \
          python-socketio
