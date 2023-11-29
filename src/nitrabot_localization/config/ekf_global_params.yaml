@@ -4,6 +4,8 @@
   two_d_mode: true 
   transform_time_offset: 0.0
   transform_timeout: 0.0
+  smooth_lagged_data: true
+  history_length: 1.0
 
   map_frame: map
   odom_frame: odom

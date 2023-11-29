@@ -17,11 +17,10 @@ services:
       dockerfile: ./nitrabot_dockerfiles/Dockerfile
     container_name: nitra_robot
     volumes:
-      - "/dev:/dev"
       - "../:/root/catkin_ws/src/"
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - "/tmp/.docker.xauth:/tmp/.docker.xauth"
-    environment:
+          environment:
       - "DISPLAY=$DISPLAY"
       - "XAUTHORITY=/tmp/.docker.xauth"
       - "QT_X11_NO_MITSHM=1"

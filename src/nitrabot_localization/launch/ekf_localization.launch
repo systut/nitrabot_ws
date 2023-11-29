@@ -1,6 +1,6 @@
 <launch>
   <!-- play bag file -->
-  <param name="use_sim_time" value="true"/>
+  <param name="use_sim_time" value="false"/>
   <arg name="debug" value="false"/>
   
   <node if="$(arg debug)" pkg="rosbag" type="play" name="player" output="screen" args="--clock /root/catkin_ws/sensor_data.bag"/>

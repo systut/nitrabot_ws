@@ -12,19 +12,19 @@
   <arg name="laser_topic" default="scan" />
   <arg name="map_topic" default="map" />
   /
-  <arg name="custom_param_file" default="$(find move_base_configuration)/param/basic/dummy.yaml"/>
+  <arg name="custom_param_file" default="$(find nitrabot_movebase_config)/param/basic/dummy.yaml"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find move_base_configuration)/param/basic/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find move_base_configuration)/param/basic/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find move_base_configuration)/param/basic/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/dwa_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/eband_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/teb_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/move_base_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/global_planner_params.yaml" command="load" />
-    <rosparam file="$(find move_base_configuration)/param/basic/navfn_global_planner_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/eband_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/move_base_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find nitrabot_movebase_config)/param/basic/navfn_global_planner_params.yaml" command="load" />
     <!-- external params file that could be loaded into the move_base namespace -->
     <rosparam file="$(arg custom_param_file)" command="load" />
 
