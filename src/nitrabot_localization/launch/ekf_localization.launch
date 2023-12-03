@@ -1,9 +1,12 @@
 <launch>
+  <arg name="debug" default="false"/>
+  <arg name="use_rviz" default="true"/>
+
   <!-- play bag file -->
-  <param name="use_sim_time" value="false"/>
-  <arg name="debug" value="false"/>
-  
-  <node if="$(arg debug)" pkg="rosbag" type="play" name="player" output="screen" args="--clock /root/catkin_ws/sensor_data.bag"/>
+  <group if="$(arg debug)">
+    <param name="use_sim_time" value="true"/>
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock /root/catkin_ws/sensor_data.bag"/>
+  </group>
   
   <!-- Start node that publish the transfrom from /base_link to /odom -->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local" clear_params="true">
@@ -29,7 +32,6 @@
   <node name="gps_frame_pub" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 base_link gps"/>
 
   <!-- Rviz -->
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find nitrabot_localization)/config/tf_view.rviz" />
-
+  <node if="$(arg use_rviz)" type="rviz" name="rviz" pkg="rviz" args="-d $(find nitrabot_localization)/config/ekf_localization.rviz" />
   
 </launch>
