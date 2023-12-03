@@ -15,7 +15,7 @@
 
 void PurePursuit::read_reference()
 {
-    std::ifstream ref_file("SmallYellowTrajOut2.csv");
+    std::ifstream ref_file("/root/catkin_ws/src/pure_pursuit_trajectory.csv");
 
     //Debug for error opening file
     if (!ref_file) {
@@ -63,7 +63,7 @@ void PurePursuit::read_reference()
     // w,v
 }
 
-double PurePursuit::getLinearVelocity(const Eigen::Vector3d &rear_axis_pose, const Eigen::Vector3d &vfh_goal)
+double PurePursuit::getLinearVelocity(const Eigen::Vector3d &rear_axis_pose)
 {
     // get distance vector
     Eigen::Vector2d distance = (vfh_goal.head<2>() - rear_axis_pose.head<2>()).normalized();
@@ -105,52 +105,39 @@ void PurePursuit::control(const Eigen::Vector3d &rear_axis_pose)
     Eigen::Vector2d robot_position = rear_axis_pose.head<2>();
     Eigen::Vector2d vfh_position;
     double distance, alpha, ang_vel;
-    double lin_vel_pp = getLinearVelocity(rear_axis_pose, vfh_goal);
+    double lin_vel_pp = getLinearVelocity(rear_axis_pose);
 
     double lin_vel = lin_vel_pp;
 
-    // get current action command from VFH heading path
-    for (long ii = counter_; ii < ref_.cols(); ++ii)
-    //for (long ii = 1; ii < ref_.cols(); ++ii)
+    int nearest_waypoint_idx, lookahead_idx;
+    nearest_waypoint_idx = findNearestWaypoint(robot_position);
+
+    for (long ii = nearest_waypoint_idx; ii < ref_.cols(); ++ii)
     {
         vfh_position = ref_.block(1, ii, 2, 1);
         distance = (vfh_position - robot_position).norm();
-
-        //std::cout << vfh_position << std::endl;
-
-        // calculate velcoitiesd for point which satisfy pp lookahead
-        if (distance < vfh_distance_)
+ 
+        if (distance > vfh_distance_)
         {
-            // calcuate angle
-            alpha = getAlpha(rear_axis_pose, vfh_position);
-
-            // calculate constraints for linear velocity
-            lin_vel = linearVelConstraint(lin_vel, alpha);
-            lin_vel = linearAccConstraint(lin_vel, alpha);
-
-            prev_lin_vel_ = lin_vel;
-
-            // calculate angular velocity
-            ang_vel = 2 * lin_vel * std::sin(alpha) / distance;
-            // std::cout << "distance:\n" << distance << std::endl;
-            // std::cout << "angvel:\n" << ang_vel << std::endl;
-            // if (pp_line_connection_pub_.getNumSubscribers() > 0)
-            // {
-            //     pp_line_connection_msg_.header.frame_id = "odom";
-            //     pp_line_connection_msg_.poses.clear();
-            //     pp_line_connection_msg_.poses.resize(2);
-            //     pp_line_connection_msg_.poses.at(0).pose.position.x = robot_position.x();
-            //     pp_line_connection_msg_.poses.at(0).pose.position.y = robot_position.y();
-            //     pp_line_connection_msg_.poses.at(1).pose.position.x = vfh_position.x();
-            //     pp_line_connection_msg_.poses.at(1).pose.position.y = vfh_position.y();
-            //     pp_line_connection_pub_.publish(pp_line_connection_msg_);
-            // }
-            ++counter_;
-            break;
+           lookahead_idx = ii -1; 
+           vfh_position = ref_.block(1, lookahead_idx, 2, 1);
+           distance = (vfh_position - robot_position).norm();
+           break;
         }
-        // std::cout << "ii:\n" << ii << std::endl;
     }
-    std::cout << "counter:\n" << counter_ << std::endl;
+
+    // calcuate angle
+    alpha = getAlpha(rear_axis_pose, vfh_position);
+
+    // calculate constraints for linear velocity
+    lin_vel = linearVelConstraint(lin_vel, alpha);
+    lin_vel = linearAccConstraint(lin_vel, alpha);
+
+    prev_lin_vel_ = lin_vel;
+
+    // calculate angular velocity
+    ang_vel = 2 * lin_vel * std::sin(alpha) / distance;
+
     std::cout << "distance:\n" << distance << std::endl;
     std::cout << "angvel:\n" << ang_vel << std::endl;
 
@@ -247,9 +234,6 @@ void PurePursuit::generateCSV(const Eigen::Vector3d &pose, const Eigen::Vector2d
 {
     std::ofstream export_data;
 
-   // Eigen::Vector3d error = pose - ref_.block(1, counter_, 3, 1);
-   // Eigen::Vector3d state_ref = ref_.block(1, counter_, 3, 1);
-
     export_data.open(filename_, std::ios::out|std::ios::app);
     for (long ii = 0; ii < pose.rows(); ++ii)
     {
@@ -276,4 +260,31 @@ void PurePursuit::generateCSV(const Eigen::Vector3d &pose, const Eigen::Vector2d
   //      }
   //  }
     export_data << std::endl;
+}
+
+int PurePursuit::findNearestWaypoint(Eigen::Vector2d robot_position)
+{
+    //Reduce search space T
+    //TODO: Find a systematic way to select value 5
+    int lb_idx = std::max(0, prev_nearest_waypoint_idx_);
+    int last_idx = static_cast<int>(ref_.cols())-1;
+    int ub_idx = std::min(last_idx, prev_nearest_waypoint_idx_ + 5);
+
+    int nearest_waypoint_idx;
+    float smallest_distance = std::numeric_limits<float>::max();
+
+    for (int ii = lb_idx; ii <= ub_idx; ii++)
+    {
+        float distance = (ref_.block(1, ii, 2, 1) - robot_position).norm();
+
+        if (distance < smallest_distance)
+        {
+            nearest_waypoint_idx = ii;
+            smallest_distance = distance;
+        }
+    }
+
+    prev_nearest_waypoint_idx_ = nearest_waypoint_idx;
+
+    return nearest_waypoint_idx;
 }

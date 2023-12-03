@@ -166,10 +166,10 @@ public:
                 double sampling_time)
     {
         sampling_time_ = sampling_time;
-        counter_=1;
 
         vfh_distance_ = ControlConstants::PURE_PURSUIT_LOOKAHEAD;
         prev_lin_vel_ = 0.0;
+        prev_nearest_waypoint_idx_ = 0;
 
         read_reference();
 
@@ -190,13 +190,15 @@ public:
     void control(const Eigen::Vector3d &rear_axis_pose);
 
 private:
+    // Find nearest waypoint to vehilces currents position
+    int findNearestWaypoint(Eigen::Vector2d robot_position);
 
     void generateCSV(const Eigen::Vector3d &pose, const Eigen::Vector2d &input);
     void read_reference();
     bool atGoal(const Eigen::Vector3d &error) const;
 
     /// calculate the current velocity with respect to epsilon ("curvature") of the path
-    double getLinearVelocity(const Eigen::Vector3d &rear_axis_pose, const Eigen::Vector3d &vfh_goal);
+    double getLinearVelocity(const Eigen::Vector3d &rear_axis_pose);
 
     // for generating a trajectory model of the system needed
     inline void getStateUpdate(const Eigen::Vector3d &prev_state, const Eigen::Vector2d input, Eigen::Vector3d &state);
@@ -257,7 +259,7 @@ private:
     double prev_lin_vel_;
 
     Eigen::MatrixXd pose_ref_;
-    unsigned long counter_;
+    int prev_nearest_waypoint_idx_;
     Eigen::MatrixXd ref_;
 
     Eigen::Vector3d goal_;

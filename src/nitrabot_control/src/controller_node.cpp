@@ -41,7 +41,7 @@ public:
         ros::Duration(1).sleep();
     }
 
-    void odometryCallback(const geometry_msgs::PoseStamped::ConstPtr &odom_msg)
+    void odometryCallback(const nav_msgs::Odometry::ConstPtr &odom_msg)
     {
         std::lock_guard<std::mutex> lock_odom(odom_mutex_);
         double now = ros::Time::now().toSec();
@@ -72,14 +72,14 @@ public:
 
         // take data
         // pose
-        double yaw = tf::getYaw(odom_msg_->pose.orientation);
+        double yaw = tf::getYaw(odom_msg_->pose.pose.orientation);
         if (yaw < 0)
         {yaw += 2.0 * M_PI;}
-        robot_pose_ << odom_msg_->pose.position.x, odom_msg_->pose.position.y, yaw;
+        robot_pose_ << odom_msg_->pose.pose.position.x, odom_msg_->pose.pose.position.y, yaw;
         //std::cout << "yaw:" << yaw << std::endl;
         odom_mutex_.unlock();
 
-
+        std::cout << "-----------------" << std::endl;
         std::cout << "Follow Trajectory" << std::endl;
         // mpc_controller_.control(robot_pose_);
         pure_pursuit_controller_.control(robot_pose_);
@@ -95,7 +95,7 @@ private:
 
     // vector of robot pose (x, y, theta)
     // messages
-    geometry_msgs::PoseStamped::ConstPtr odom_msg_;
+    nav_msgs::Odometry::ConstPtr odom_msg_;
     nav_msgs::PathPtr vfh_path_;
 
     bool simulation_;
@@ -115,8 +115,6 @@ private:
     // service object
     ros::ServiceClient flag_traj_client_;
 
-    int update_counter_;
-
     // timer
     double last_;
 
@@ -130,7 +128,7 @@ private:
         // subscriber
         ROS_WARN("CONTROLLER_NODE_WARN: Subscribe 'odom' and 'encoder_odom' conditions");
         //odom_sub_ = nh_.subscribe("/encoder_odom", 4, &ControllerNode::odometryCallback, this);
-        odom_sub_ = nh_.subscribe("/tracked_pose", 4, &ControllerNode::odometryCallback, this);
+        odom_sub_ = nh_.subscribe("/odom", 4, &ControllerNode::odometryCallback, this);
         periodic_timer_ = private_nh_.createTimer(ros::Duration(sampling_time_), &ControllerNode::callController, this);
     }
 
