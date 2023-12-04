@@ -4,12 +4,12 @@
 
     <!-- Run localization -->
     <include file="$(find nitrabot_localization)/launch/ekf_localization.launch">
-        <arg name="debug" value="true"/>
-        <arg name="use_rviz" value="false"/>
+        <arg name="debug" value="false"/>
+        <arg name="use_rviz" value="true"/>
     </include>
     
     <!-- Launch pure pursuit node -->
-    <node name="pure_pursuit_controller" pkg="nitrabot_control" type="controller_node"  output="screen">
+    <node name="pure_pursuit_controller" pkg="nitrabot_control" type="controller_node" output="log">
         <remap from="/odom" to="/odometry/filtered/global"/>
     </node>
     <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find nitrabot_launch)/config/nav_pure_pursuit.rviz" /> -->

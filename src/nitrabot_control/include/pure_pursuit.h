@@ -75,6 +75,7 @@ namespace RobotConstants
     constexpr double MAX_WHEEL_ACC         = 0.1;              
     constexpr double MAX_WHEEL_VEL         = 0.5;      
     constexpr double AXLE_LENGTH           = 0.53 / 2;             // [m]
+    constexpr double MAX_ANG_VEL           = MathConstants::PI/3;  // [rad/s] 
 }
 
 namespace GeneralFunctions

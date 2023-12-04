@@ -74,10 +74,10 @@ double PurePursuit::getLinearVelocity(const Eigen::Vector3d &rear_axis_pose)
 
     // get epsilon
     double epsilon = distance.dot(normal_vector);
-    std::cout << "Epsilon: " << std::abs(epsilon) << std::endl;
+    // std::cout << "Epsilon: " << std::abs(epsilon) << std::endl;
     // calculate velocity
     double lin_vel = TrajectoryParameters::PATH_VEL_LIM + std::abs(epsilon) * (TrajectoryParameters::PATH_VEL_MIN - TrajectoryParameters::PATH_VEL_LIM);
-    std::cout << "Velocity: " << lin_vel << std::endl;
+    // std::cout << "Velocity: " << lin_vel << std::endl;
     return lin_vel;
 }
 
@@ -85,6 +85,9 @@ void PurePursuit::control(const Eigen::Vector3d &rear_axis_pose)
 {
     // calculate error
     Eigen::Vector3d error = vfh_goal - rear_axis_pose;
+    double angle_error = GeneralFunctions::wrapToPi(GeneralFunctions::wrapTo2Pi(vfh_goal.z()) - GeneralFunctions::wrapTo2Pi(rear_axis_pose.z()));
+    error(2) = angle_error;
+
     std::cout << "Error:\n" << error << std::endl;
     // check if at goal
     // if (atGoal(error))
@@ -137,28 +140,31 @@ void PurePursuit::control(const Eigen::Vector3d &rear_axis_pose)
 
     // calculate angular velocity
     ang_vel = 2 * lin_vel * std::sin(alpha) / distance;
+    
+    std::cout << "computed ouput: (v,w) = " << lin_vel << " , " << ang_vel << std::endl;
 
-    std::cout << "distance:\n" << distance << std::endl;
-    std::cout << "angvel:\n" << ang_vel << std::endl;
-
-    //if(std::abs(ang_vel)>0.1)
-    //{
-    //   ang_vel = 0.1;
-    //}
-
-    if(atGoal(error))
+    if (flag == 1)
     {
-        std::cout << "At goal" << std::endl;
+        lin_vel = 0.0;
+        ang_vel = 0.0;
+    }
+    else if(std::abs(ang_vel)> RobotConstants::MAX_ANG_VEL)
+    {
+      std::cout << "[Warn] Command angular velocity excesses the maximum value ! Force to stop !" << std::endl;  
+      lin_vel = 0.0;
+      ang_vel = 0.0;
+      flag =1;
+    }
+    else if(atGoal(error))
+    {
+        std::cout << "[Info] At goal" << std::endl;
         lin_vel = 0.0;
         ang_vel = 0.0;
         flag = 1;
     }
-    if(flag == 1)
-    {
-        std::cout << "At goal" << std::endl;
-        lin_vel = 0.0;
-        ang_vel = 0.0;
-    }
+
+    std::cout << " the Output: (v,w) = " << lin_vel << " , " << ang_vel << std::endl;
+
     // calculate actions for SDV
     Eigen::Vector2d input(lin_vel, ang_vel);
     getVfhControlCmd(input);
@@ -168,13 +174,7 @@ void PurePursuit::control(const Eigen::Vector3d &rear_axis_pose)
 
 bool PurePursuit::atGoal(const Eigen::Vector3d &error) const
 {   
-    if(std::abs(error(2))>6.0)
-    {
-        if (std::abs(error(0)) < POS_THRESHOLD && std::abs(error(1)) < POS_THRESHOLD && (std::abs(error(2)) - MathConstants::TWOPI) < HEADING_THRESHOLD)
-        {
-            return true;
-        }
-    }
+
     if (std::abs(error(0)) < POS_THRESHOLD && std::abs(error(1)) < POS_THRESHOLD && std::abs(error(2)) < HEADING_THRESHOLD)
     {
         return true;
