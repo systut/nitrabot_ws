@@ -37,15 +37,15 @@ GNSS system is typically only able to provide a positioning accuracy on the orde
 
 Since the below GNSS receiver which outputs corrected data is used in this package, [nmea_serial_driver](http://wiki.ros.org/nmea_navsat_driver#:~:text=provides%20velocity%20information.-,nmea_serial_driver,-NMEA%20GPS%20Serial) node is good enough for converting receiver's output (NMEA sentences) into ROS messages (`sensor_msgs/NavSatFix`).
 
-> In case of using different RTK-GNSS receiver, a package contains nodes for receiving correction information from Ichimill service and sending it to receivers is required. Unofficial package [f9p_ichimill](https://github.com/terakenxx/f9p_ichimill) satisfies this requirement.
+> *In case of using different RTK-GNSS receiver, a package contains nodes for receiving correction information from Ichimill service and sending it to receivers is required. Unofficial package [f9p_ichimill](https://github.com/terakenxx/f9p_ichimill) satisfies this requirement.*
 
-![Softbank GNSS receiver](https://www.softbank.jp/biz/function/dynamicmedia/deliver/dm-aid--9daed7c7-d18c-4eaf-8948-6a64ef607f04/img-ichimill-pic-gnss-01-20210930.png?quality=100&width=2000&preferwebp=true)
+![Softbank GNSS receiver](doc/01_images/ichimill_gnss_receiver.jpg)
 
 ### IMU sensor
 
 An Intertial Measurement Unit (IMU) measures and reports body's specific force (also call proper acceleration), angular rate, magnetic fields using a combination of accelerometers, gycroscopes, and magnetomerters.
 
-<img src="https://rt-net.jp/wp-content/uploads/2020/04/USB%E5%87%BA%E5%8A%9B9%E8%BB%B8IMU%E3%82%BB%E3%83%B3%E3%82%B5%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB.png" alt="rt_imu"  width="400"/>
+<img src="doc/01_images/9axis_imu.png" alt="rt_imu"  width="400"/>
 
 [RT_USB_9axisIMU](https://rt-net.jp/products/usb9imu/) sensor is used in this project. IMU data is obtained via USB port, and expressed in ROS by using [rt_usb_9axisimu_driver](https://github.com/rt-net/rt_usb_9axisimu_driver/tree/noetic-devel?tab=readme-ov-file)
 
