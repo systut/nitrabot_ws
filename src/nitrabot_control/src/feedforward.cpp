@@ -29,6 +29,10 @@ class FeedForwardControl
 
         unsigned long counter_;
 
+        double wheel_base_ = 0.54;
+
+        double sampling_time_ = 0.05;
+
         void readReference()
         {
 
@@ -76,24 +80,13 @@ class FeedForwardControl
         {
             std::cout << "Step " << counter_ << " :" << std::endl;
             
-            if (counter_ == 1400)
-            {
-                velocity_msgs_.linear.x = 0.0;
-                
-                velocity_msgs_.angular.z = 0.0;
-                
-                velocity_pub_.publish(velocity_msgs_);
-
-                ros::shutdown();
-            }
-             
             Eigen::Vector2d input_ref = ref_.block(1, counter_, 2, 1);
             
             std::cout << input_ref << std::endl;
+                        
+            velocity_msgs_.linear.x = (input_ref(0) + input_ref(1)) / 2.0;
             
-            velocity_msgs_.linear.x = input_ref(0);
-            
-            velocity_msgs_.angular.z = input_ref(1);
+            velocity_msgs_.angular.z = (input_ref(0) - input_ref(1)) / (wheel_base_ * 2.0);
 
             ++counter_;
 
@@ -109,8 +102,7 @@ class FeedForwardControl
             
             counter_ = 0;
 
-
-            controller_timer_ = nh_.createTimer(ros::Duration(0.1), &FeedForwardControl::execute, this);
+            controller_timer_ = nh_.createTimer(ros::Duration(sampling_time_), &FeedForwardControl::execute, this);
 
             velocity_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 10);
 
