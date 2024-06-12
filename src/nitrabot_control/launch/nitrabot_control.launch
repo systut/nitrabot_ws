@@ -1,0 +1,7 @@
+<launch>
+    <!-- Launch the feedforward node -->
+    <node name="feedforward" pkg="nitrabot_control" type="feedforward" output="screen">
+        <!-- Add any necessary arguments or parameters here -->
+        <rosparam param="trajectory_file">/root/catkin_ws/src/nitrabot_control/data/data_outdoorrobot_exp.csv</rosparam>
+    </node>
+</launch>

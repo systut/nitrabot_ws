@@ -45,3 +45,5 @@ include_directories(
 
 add_executable(controller_node src/controller_node.cpp)
 target_link_libraries(controller_node ${catkin_LIBRARIES} control)
+
+add_executable(feedforward src/feedforward.cpp)

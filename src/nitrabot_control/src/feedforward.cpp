@@ -31,7 +31,10 @@ class FeedForwardControl
 
         void readReference()
         {
-            std::string trajectory_file = "/root/catkin_ws/src/coverage_path_control_input.csv";
+
+            std::string trajectory_file;
+            nh_.param<std::string>("/trajectory_file", trajectory_file, "/root/catkin_ws/src/coverage_path_control_input.csv");
+            
             std::ifstream ref_file(trajectory_file.c_str());
             if (ref_file.good())
             {
