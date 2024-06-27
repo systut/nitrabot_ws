@@ -52,5 +52,9 @@ services:
     network_mode: host
     tty: True
     stdin_open: True
-    command: bash
+    entrypoint:
+      - bash 
+      - -c
+    command: > 
+      "roslaunch nitrabot_communication nitrabot_communication.launch"
 
