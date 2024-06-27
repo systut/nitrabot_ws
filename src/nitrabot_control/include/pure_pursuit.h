@@ -163,36 +163,14 @@ public:
     PurePursuit() {}
 
     PurePursuit(ros::NodeHandle nh, ros::NodeHandle private_nh,
-                double sampling_time)
-    {
-        sampling_time_ = sampling_time;
-        counter_=1;
-
-        vfh_distance_ = ControlConstants::PURE_PURSUIT_LOOKAHEAD;
-        prev_lin_vel_ = 0.0;
-
-        read_reference();
-
-        time_t now = time(0);
-        strftime(filename_, sizeof(filename_), "log/%Y%m%d_%H%M.csv", localtime(&now));
-
-        std::ofstream iniCSV;
-        iniCSV.open(filename_, std::ios::out|std::ios::trunc);
-       // iniCSV << "Horizon : " + std::to_string(ControlConstants::HORIZON) + ", Velocity" + std::to_string(TrajectoryParameters::PATH_VEL_LIM); 
-       // iniCSV << std::endl;
-        iniCSV <<   "pose_x [m], pose_y [m], pose_theta [rad], "
-                    "v [m/s], delta [rad], "
-                    "x_e, y_e, theta_e, x_ref, y_ref, theta_ref";
-        iniCSV << std::endl;
-
-    }
-
+                double sampling_time);
+    
     void control(const Eigen::Vector3d &rear_axis_pose);
 
 private:
 
     void generateCSV(const Eigen::Vector3d &pose, const Eigen::Vector2d &input);
-    void read_reference();
+    void read_reference(const std::string &trajectory_file);
     bool atGoal(const Eigen::Vector3d &error) const;
 
     /// calculate the current velocity with respect to epsilon ("curvature") of the path

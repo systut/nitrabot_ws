@@ -125,12 +125,12 @@ private:
         nh_ = nh;
         private_nh_ = private_nh;
         // check parameter server
-        nh.param("controller_sampling_time", sampling_time_, 0.05); //[s]
-        nh.param("simulation", simulation_, true);
+        nh_.param("controller_sampling_time", sampling_time_, 0.05); //[s]
+        nh_.param("simulation", simulation_, true);
         // subscriber
         ROS_WARN("CONTROLLER_NODE_WARN: Subscribe 'odom' and 'encoder_odom' conditions");
         //odom_sub_ = nh_.subscribe("/encoder_odom", 4, &ControllerNode::odometryCallback, this);
-        odom_sub_ = nh_.subscribe("/tracked_pose", 4, &ControllerNode::odometryCallback, this);
+        odom_sub_ = nh_.subscribe("/odometry/filtered/local", 4, &ControllerNode::odometryCallback, this);
         periodic_timer_ = private_nh_.createTimer(ros::Duration(sampling_time_), &ControllerNode::callController, this);
     }
 

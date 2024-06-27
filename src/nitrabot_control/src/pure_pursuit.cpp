@@ -13,9 +13,41 @@
 
 #include "../include/pure_pursuit.h"
 
-void PurePursuit::read_reference()
+PurePursuit::PurePursuit(ros::NodeHandle nh, ros::NodeHandle private_nh,
+                double sampling_time)
+    {
+        sampling_time_ = sampling_time;
+        counter_=1;
+
+        vfh_distance_ = ControlConstants::PURE_PURSUIT_LOOKAHEAD;
+        prev_lin_vel_ = 0.0;
+
+        std::string trajectory_file;
+        
+        private_nh.param<std::string>("trajectory_file", trajectory_file, "");
+        
+        std::cout << "Trajectory file: " << trajectory_file << std::endl;        
+        
+        read_reference(trajectory_file);
+
+        time_t now = time(0);
+        strftime(filename_, sizeof(filename_), "log/%Y%m%d_%H%M.csv", localtime(&now));
+
+        std::ofstream iniCSV;
+        iniCSV.open(filename_, std::ios::out|std::ios::trunc);
+       // iniCSV << "Horizon : " + std::to_string(ControlConstants::HORIZON) + ", Velocity" + std::to_string(TrajectoryParameters::PATH_VEL_LIM); 
+       // iniCSV << std::endl;
+        iniCSV <<   "pose_x [m], pose_y [m], pose_theta [rad], "
+                    "v [m/s], delta [rad], "
+                    "x_e, y_e, theta_e, x_ref, y_ref, theta_ref";
+        iniCSV << std::endl;
+
+    }
+
+void PurePursuit::read_reference(const std::string& trajectory_file)
 {
-    std::ifstream ref_file("SmallYellowTrajOut2.csv");
+    // std::ifstream ref_file("SmallYellowTrajOut2.csv");
+    std::ifstream ref_file(trajectory_file);
 
     //Debug for error opening file
     if (!ref_file) {
