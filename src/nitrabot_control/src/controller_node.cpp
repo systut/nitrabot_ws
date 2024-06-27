@@ -125,7 +125,7 @@ private:
         nh_ = nh;
         private_nh_ = private_nh;
         // check parameter server
-        nh_.param("controller_sampling_time", sampling_time_, 0.05); //[s]
+        nh_.param("sampling_time", sampling_time_, 0.05); //[s]
         nh_.param("simulation", simulation_, true);
         // subscriber
         ROS_WARN("CONTROLLER_NODE_WARN: Subscribe 'odom' and 'encoder_odom' conditions");

@@ -24,7 +24,7 @@ PurePursuit::PurePursuit(ros::NodeHandle nh, ros::NodeHandle private_nh,
 
         std::string trajectory_file;
         
-        private_nh.param<std::string>("trajectory_file", trajectory_file, "");
+        nh.param<std::string>("trajectory_file", trajectory_file, "");
         
         std::cout << "Trajectory file: " << trajectory_file << std::endl;        
         
