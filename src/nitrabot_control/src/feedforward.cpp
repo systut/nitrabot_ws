@@ -29,16 +29,17 @@ class FeedForwardControl
 
         unsigned long counter_;
 
-        double wheel_base_ = 0.54;
+        double wheel_base_ = 0.51;
 
-        double sampling_time_ = 0.05;
+        double sampling_time_ = 0.01;
 
         void readReference()
         {
-
+            nh_.param<double>("/sampling_time", sampling_time_, 0.01);
+            std::cout << "Sampling time: " << sampling_time_ << std::endl;
             std::string trajectory_file;
             nh_.param<std::string>("/trajectory_file", trajectory_file, "/root/catkin_ws/src/coverage_path_control_input.csv");
-            
+            std::cout << "Trajectory file: " << trajectory_file << std::endl;
             std::ifstream ref_file(trajectory_file.c_str());
             if (ref_file.good())
             {
@@ -64,7 +65,7 @@ class FeedForwardControl
                     std::stringstream lineStream(line);
                     std::string cell;
                     long row_idx = 0;
-                    while(std::getline(lineStream, cell, ','))
+                    while(std::getline(lineStream, cell, ';'))
                     {
                         ref_(row_idx,col_idx) = std::stof(cell);
                         ++row_idx;
