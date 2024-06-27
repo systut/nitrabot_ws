@@ -56,5 +56,8 @@ services:
       - bash 
       - -c
     command: > 
-      "roslaunch nitrabot_communication nitrabot_communication.launch"
+      "source /opt/ros/melodic/setup.bash &&
+       source /root/catkin_ws/devel/setup.bash &&
+       sleep 2 &&
+       roslaunch nitrabot_communication nitrabot_communication.launch"
 

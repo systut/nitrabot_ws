@@ -2,10 +2,10 @@
   <!-- play bag file -->
   <param name="use_sim_time" value="false"/>
   <arg name="debug" value="false"/>
-  <arg name="save" value= "false"/>
+  <arg name="save" value= "true"/>
   
   <node if="$(arg debug)" pkg="rosbag" type="play" name="player" output="screen" args="--clock /root/catkin_ws/sensor_data.bag"/>
-  <node if="$(arg save)" pkg="rosbag" type="record" name="recorder" output="screen" args="-o /root/catkin_ws/nitrabot_data/ /odometry/filtered/local /odometry/filtered/global /fix"/>
+  <node if="$(arg save)" pkg="rosbag" type="record" name="recorder" output="screen" args="-o /root/catkin_ws/src/nitrabot_data/ /odometry/filtered/local /odometry/filtered/global /fix"/>
 
   <!-- Start node that publish the transfrom from /base_link to /odom -->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local" clear_params="true">

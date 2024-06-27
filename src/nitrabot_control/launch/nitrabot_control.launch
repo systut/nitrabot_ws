@@ -1,9 +1,10 @@
 <launch>
     <rosparam param="trajectory_file">/root/catkin_ws/src/nitrabot_control/data/data_experiment_LTurn_outdoor_interp01stopcond.csv</rosparam>
     <rosparam param="sampling_time">0.01</rosparam>
-    <arg name="feedback" value="false"/>
+    <arg name="feedback" default="false" />
     <!-- Launch the feedforward node -->
-    <node unless="$(arg feedback)" name="feedforward" pkg="nitrabot_control" type="feedforward" output="screen"\>
-    <node if="$(arg feedback)" name="purepursuit" pkg="nitrabot_control" type="controller_node" output="screen"\>
-
+    <node unless="$(arg feedback)" name="feedforward" pkg="nitrabot_control" type="feedforward" output="screen">
+    </node>
+    <node if="$(arg feedback)" name="purepursuit" pkg="nitrabot_control" type="controller_node" output="screen">
+    </node>
 </launch>

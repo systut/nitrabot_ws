@@ -12,5 +12,5 @@
     <include file="$(find nitrabot_localization)/launch/ekf_localization.launch" />
 
     <!-- Launch configurable node -->
-    <include file="$(find nitrabot_movebase_config)/launch/basic/move_base.launch" />
+    <!-- <include file="$(find nitrabot_movebase_config)/launch/basic/move_base.launch" /> -->
 </launch>
